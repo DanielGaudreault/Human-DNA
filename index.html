@@ -3,183 +3,425 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfect Human DNA Helix Explorer</title>
+    <title>Gnomic DNA Helix Explorer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Orbitron', 'Segoe UI', sans-serif;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Exo+2:wght@300;400;600&display=swap');
+
+        :root {
+            --primary-glow: #00ffea;
+            --secondary-glow: #ff00ff;
+            --accent-glow: #ffff00;
+            --deep-space: #0a0a1a;
+            --nebula-purple: #1a0a2a;
+            --panel-bg: rgba(10, 15, 35, 0.85);
+            --panel-border: rgba(0, 255, 234, 0.3);
         }
 
         body {
-            background: linear-gradient(135deg, #0c0c2e 0%, #1a1a3e 100%);
-            color: #e0f7fa;
+            background: radial-gradient(ellipse at center, var(--deep-space) 0%, #000000 100%);
+            color: #ffffff;
             min-height: 100vh;
             overflow-x: hidden;
+            position: relative;
         }
 
+        /* Animated cosmic background */
+        .cosmic-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(120, 0, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(0, 200, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(255, 0, 200, 0.1) 0%, transparent 50%);
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .star {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite alternate;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .pulse {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            box-shadow: 0 0 20px var(--primary-glow);
+            animation: pulse 4s infinite;
+            opacity: 0;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.8); opacity: 0.7; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+
+        /* Header with particle effect */
         header {
             text-align: center;
-            padding: 2rem;
-            background: rgba(10, 25, 47, 0.9);
-            border-bottom: 2px solid #00e5ff;
-            box-shadow: 0 0 30px rgba(0, 229, 255, 0.3);
+            padding: 2.5rem 1rem;
+            background: linear-gradient(to bottom, rgba(10, 20, 40, 0.95) 0%, rgba(10, 20, 40, 0.7) 100%);
+            border-bottom: 1px solid var(--panel-border);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 50px rgba(0, 255, 234, 0.2);
+        }
+
+        .header-glow {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, rgba(0, 255, 234, 0.1) 0%, transparent 70%);
+            z-index: -1;
         }
 
         h1 {
-            font-size: 3.5rem;
-            background: linear-gradient(90deg, #00e5ff, #00ff95);
+            font-size: 4.2rem;
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            background: linear-gradient(90deg, var(--primary-glow), var(--secondary-glow), var(--accent-glow));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
+            text-shadow: 0 0 30px rgba(0, 255, 234, 0.5);
+            animation: titleGlow 4s infinite alternate;
+        }
+
+        @keyframes titleGlow {
+            0% { text-shadow: 0 0 30px rgba(0, 255, 234, 0.5); }
+            100% { text-shadow: 0 0 40px rgba(255, 0, 255, 0.7), 0 0 60px rgba(0, 255, 234, 0.4); }
+        }
+
+        .subtitle {
+            font-size: 1.4rem;
+            color: #a0f0ff;
+            font-family: 'Exo 2', sans-serif;
+            font-weight: 300;
+            letter-spacing: 2px;
             margin-bottom: 0.5rem;
-            text-shadow: 0 0 15px rgba(0, 229, 255, 0.5);
         }
 
-        .tagline {
-            font-size: 1.2rem;
-            color: #80deea;
-            font-style: italic;
+        .gnome-name {
+            display: inline-block;
+            font-size: 2.2rem;
+            color: var(--accent-glow);
+            font-weight: 700;
+            padding: 0.5rem 1.5rem;
+            border-radius: 10px;
+            background: rgba(255, 255, 0, 0.1);
+            border: 1px solid rgba(255, 255, 0, 0.3);
+            margin-top: 1rem;
+            text-shadow: 0 0 15px rgba(255, 255, 0, 0.7);
+            animation: namePulse 3s infinite alternate;
         }
 
+        @keyframes namePulse {
+            0% { box-shadow: 0 0 10px rgba(255, 255, 0, 0.3); }
+            100% { box-shadow: 0 0 25px rgba(255, 255, 0, 0.7); }
+        }
+
+        /* Main container */
         .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            max-width: 1400px;
+            max-width: 1600px;
             margin: 0 auto;
             padding: 2rem;
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 2rem;
         }
 
-        .dna-visualizer {
-            width: 100%;
-            height: 600px;
+        @media (max-width: 1200px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* DNA Visualization Section */
+        .dna-section {
             position: relative;
-            margin: 2rem 0;
+            border-radius: 20px;
+            overflow: hidden;
+            background: rgba(5, 10, 25, 0.6);
+            border: 1px solid var(--panel-border);
+            box-shadow: 0 0 40px rgba(0, 255, 234, 0.15);
+            height: 750px;
+        }
+
+        .dna-header {
+            padding: 1.5rem;
+            background: linear-gradient(to right, rgba(0, 40, 60, 0.8), rgba(40, 0, 60, 0.8));
+            border-bottom: 1px solid var(--panel-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dna-header h2 {
+            font-size: 1.8rem;
+            color: var(--primary-glow);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .dna-status {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #0f0;
+            box-shadow: 0 0 10px #0f0;
+            animation: statusPulse 2s infinite;
+        }
+
+        @keyframes statusPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .dna-canvas-container {
+            width: 100%;
+            height: calc(100% - 80px);
+            position: relative;
+            overflow: hidden;
         }
 
         #dna-canvas {
             width: 100%;
             height: 100%;
-            border-radius: 15px;
-            background: rgba(5, 15, 30, 0.7);
-            box-shadow: 0 0 50px rgba(0, 229, 255, 0.2);
         }
 
-        .controls {
-            background: rgba(20, 40, 80, 0.8);
-            padding: 1.5rem;
-            border-radius: 15px;
-            margin: 2rem 0;
-            width: 100%;
+        /* Control Panel */
+        .control-panel {
+            background: var(--panel-bg);
+            border-radius: 20px;
+            border: 1px solid var(--panel-border);
+            box-shadow: 0 0 30px rgba(0, 255, 234, 0.1);
+            padding: 2rem;
+            height: fit-content;
+        }
+
+        .panel-title {
+            font-size: 1.6rem;
+            color: var(--primary-glow);
+            margin-bottom: 1.5rem;
             display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 1.5rem;
-            border: 1px solid #00bcd4;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid rgba(0, 255, 234, 0.3);
+            padding-bottom: 0.8rem;
         }
 
         .control-group {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-width: 200px;
+            margin-bottom: 2rem;
         }
 
         .control-label {
-            margin-bottom: 0.5rem;
-            color: #80deea;
-            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.8rem;
+            color: #a0f0ff;
+            font-weight: 500;
+        }
+
+        .control-value {
+            color: var(--primary-glow);
+            font-weight: 700;
         }
 
         .slider-container {
-            width: 100%;
+            position: relative;
+            height: 30px;
         }
 
-        input[type="range"] {
-            width: 100%;
-            height: 10px;
+        .slider {
             -webkit-appearance: none;
-            background: linear-gradient(90deg, #006064, #00bcd4);
-            border-radius: 5px;
+            width: 100%;
+            height: 8px;
+            background: linear-gradient(to right, #003333, #00cccc);
+            border-radius: 4px;
             outline: none;
         }
 
-        input[type="range"]::-webkit-slider-thumb {
+        .slider::-webkit-slider-thumb {
             -webkit-appearance: none;
-            width: 22px;
-            height: 22px;
-            background: #00e5ff;
+            width: 24px;
+            height: 24px;
+            background: var(--primary-glow);
             border-radius: 50%;
             cursor: pointer;
-            box-shadow: 0 0 10px #00e5ff;
+            box-shadow: 0 0 15px var(--primary-glow);
+            border: 2px solid white;
+        }
+
+        .btn-group {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin: 1.5rem 0;
         }
 
         .btn {
+            padding: 0.9rem 1.2rem;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-family: 'Exo 2', sans-serif;
+        }
+
+        .btn-primary {
             background: linear-gradient(45deg, #006064, #00bcd4);
             color: white;
-            border: none;
-            padding: 0.8rem 1.5rem;
-            border-radius: 50px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            margin: 0 0.5rem;
             box-shadow: 0 5px 15px rgba(0, 188, 212, 0.4);
         }
 
-        .btn:hover {
+        .btn-primary:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0, 188, 212, 0.6);
+            box-shadow: 0 8px 25px rgba(0, 188, 212, 0.7);
             background: linear-gradient(45deg, #00838f, #00e5ff);
         }
 
-        .info-panel {
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+
+        .color-selector {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .color-option {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .color-option.active {
+            border-color: white;
+            transform: scale(1.1);
+            box-shadow: 0 0 15px white;
+        }
+
+        /* Info Dashboard */
+        .info-dashboard {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 2rem;
-            width: 100%;
             margin-top: 2rem;
         }
 
-        .card {
-            background: rgba(25, 50, 100, 0.7);
-            padding: 1.5rem;
+        .info-card {
+            background: var(--panel-bg);
             border-radius: 15px;
-            border-left: 5px solid #00e5ff;
-            transition: transform 0.3s ease;
+            padding: 1.8rem;
+            border: 1px solid var(--panel-border);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
-        .card:hover {
+        .info-card:hover {
             transform: translateY(-5px);
-            background: rgba(30, 60, 120, 0.8);
+            box-shadow: 0 10px 30px rgba(0, 255, 234, 0.2);
+            border-color: var(--primary-glow);
         }
 
-        .card h3 {
-            color: #00e5ff;
-            margin-bottom: 1rem;
-            font-size: 1.5rem;
+        .info-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-glow), var(--secondary-glow));
         }
 
-        .sequence-display {
-            background: rgba(0, 20, 40, 0.9);
-            padding: 1rem;
+        .card-title {
+            font-size: 1.4rem;
+            color: var(--primary-glow);
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .dna-sequence {
+            background: rgba(0, 20, 40, 0.8);
             border-radius: 10px;
+            padding: 1.2rem;
             font-family: 'Courier New', monospace;
-            color: #00ff95;
-            overflow-x: auto;
-            white-space: nowrap;
-            margin-top: 1rem;
-            border: 1px solid #006064;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid rgba(0, 255, 234, 0.2);
         }
 
         .base {
             display: inline-block;
-            padding: 2px 6px;
-            margin: 0 1px;
-            border-radius: 3px;
+            padding: 2px 8px;
+            margin: 0 2px;
+            border-radius: 4px;
             font-weight: bold;
+            transition: all 0.2s ease;
+        }
+
+        .base:hover {
+            transform: scale(1.2);
+            box-shadow: 0 0 10px currentColor;
         }
 
         .A { background: rgba(255, 50, 50, 0.3); color: #ff5252; }
@@ -187,158 +429,589 @@
         .C { background: rgba(33, 150, 243, 0.3); color: #2196f3; }
         .G { background: rgba(255, 193, 7, 0.3); color: #ffc107; }
 
-        footer {
-            text-align: center;
-            padding: 2rem;
-            margin-top: 3rem;
-            background: rgba(10, 25, 47, 0.9);
-            border-top: 2px solid #00e5ff;
-            color: #80deea;
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
         }
 
+        .stat-item {
+            background: rgba(0, 30, 60, 0.5);
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-glow);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #a0f0ff;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 1.4rem;
+            color: var(--primary-glow);
+            font-weight: 700;
+        }
+
+        .enhancement-list {
+            list-style: none;
+        }
+
+        .enhancement-list li {
+            padding: 0.7rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .enhancement-list li:last-child {
+            border-bottom: none;
+        }
+
+        .checkmark {
+            color: #00ff00;
+            font-size: 1.2rem;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2.5rem 1rem;
+            margin-top: 4rem;
+            background: linear-gradient(to top, rgba(10, 20, 40, 0.95) 0%, transparent 100%);
+            border-top: 1px solid var(--panel-border);
+            position: relative;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 1.5rem 0;
+        }
+
+        .footer-link {
+            color: #a0f0ff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: var(--primary-glow);
+            text-shadow: 0 0 10px var(--primary-glow);
+        }
+
+        .copyright {
+            color: #6688aa;
+            font-size: 0.9rem;
+            margin-top: 1.5rem;
+        }
+
+        /* Floating particles */
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        /* Responsive adjustments */
         @media (max-width: 768px) {
             h1 {
-                font-size: 2.5rem;
+                font-size: 2.8rem;
             }
             
-            .dna-visualizer {
-                height: 400px;
+            .container {
+                padding: 1rem;
             }
             
-            .controls {
-                flex-direction: column;
-                align-items: center;
+            .dna-section {
+                height: 500px;
+            }
+            
+            .btn-group {
+                grid-template-columns: 1fr;
+            }
+            
+            .info-dashboard {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Animated Background -->
+    <div class="cosmic-bg"></div>
+    <div class="stars" id="stars"></div>
+
     <header>
-        <h1>Perfect Human DNA Helix Explorer</h1>
-        <p class="tagline">Visualizing the Blueprint of Human Perfection</p>
+        <div class="header-glow"></div>
+        <h1><i class="fas fa-dna"></i> GNOMIC DNA HELIX EXPLORER</h1>
+        <p class="subtitle">Visualizing the Perfect Genetic Blueprint</p>
+        <div class="gnome-name" id="gnome-name">FELIX GEARHART</div>
     </header>
 
     <div class="container">
-        <div class="dna-visualizer">
-            <canvas id="dna-canvas"></canvas>
-        </div>
+        <!-- Main DNA Visualization -->
+        <section class="dna-section">
+            <div class="dna-header">
+                <h2><i class="fas fa-helmet-battle"></i> GNOME DNA HELIX - LIVE VISUALIZATION</h2>
+                <div class="dna-status">
+                    <span>GENOME ACTIVE</span>
+                    <div class="status-indicator"></div>
+                </div>
+            </div>
+            <div class="dna-canvas-container">
+                <canvas id="dna-canvas"></canvas>
+            </div>
+        </section>
 
-        <div class="controls">
+        <!-- Control Panel -->
+        <section class="control-panel">
+            <h2 class="panel-title"><i class="fas fa-sliders-h"></i> HELIX CONTROLS</h2>
+            
             <div class="control-group">
-                <div class="control-label">Rotation Speed</div>
+                <div class="control-label">
+                    <span>Rotation Speed</span>
+                    <span class="control-value" id="speed-value">0.8x</span>
+                </div>
                 <div class="slider-container">
-                    <input type="range" id="speed-slider" min="0" max="10" value="3" step="0.1">
+                    <input type="range" min="0" max="2" step="0.1" value="0.8" class="slider" id="speed-slider">
                 </div>
             </div>
-            
-            <div class="control-group">
-                <div class="control-label">Helix Size</div>
-                <div class="slider-container">
-                    <input type="range" id="size-slider" min="0.5" max="3" value="1.5" step="0.1">
-                </div>
-            </div>
-            
-            <div class="control-group">
-                <div class="control-label">Base Pair Colors</div>
-                <div>
-                    <button id="color-mode" class="btn">Vibrant Mode</button>
-                </div>
-            </div>
-            
-            <div class="control-group">
-                <div class="control-label">Animation</div>
-                <div>
-                    <button id="play-pause" class="btn">Pause</button>
-                    <button id="reset-view" class="btn">Reset</button>
-                </div>
-            </div>
-        </div>
 
-        <div class="info-panel">
-            <div class="card">
-                <h3>🧬 Perfect Human DNA Sequence</h3>
-                <p>This visualization represents an optimized human genome sequence with enhanced genetic markers for longevity, cognition, and resilience.</p>
-                <div class="sequence-display" id="sequence-display">
+            <div class="control-group">
+                <div class="control-label">
+                    <span>Helix Radius</span>
+                    <span class="control-value" id="radius-value">Medium</span>
+                </div>
+                <div class="slider-container">
+                    <input type="range" min="0.5" max="3" step="0.1" value="1.5" class="slider" id="radius-slider">
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">
+                    <span>Camera Distance</span>
+                    <span class="control-value" id="camera-value">Optimal</span>
+                </div>
+                <div class="slider-container">
+                    <input type="range" min="300" max="1000" step="10" value="500" class="slider" id="camera-slider">
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">
+                    <span>Color Theme</span>
+                </div>
+                <div class="color-selector">
+                    <div class="color-option active" style="background: linear-gradient(45deg, #00ffea, #0099ff);" data-theme="neon"></div>
+                    <div class="color-option" style="background: linear-gradient(45deg, #ff00ff, #ff5500);" data-theme="vibrant"></div>
+                    <div class="color-option" style="background: linear-gradient(45deg, #00ff95, #00ccff);" data-theme="cyber"></div>
+                    <div class="color-option" style="background: linear-gradient(45deg, #4caf50, #2196f3);" data-theme="natural"></div>
+                </div>
+            </div>
+
+            <div class="btn-group">
+                <button class="btn btn-primary" id="play-pause">
+                    <i class="fas fa-pause"></i> PAUSE
+                </button>
+                <button class="btn btn-secondary" id="reset-view">
+                    <i class="fas fa-redo"></i> RESET
+                </button>
+                <button class="btn btn-primary" id="auto-rotate">
+                    <i class="fas fa-sync"></i> AUTO-ROTATE
+                </button>
+                <button class="btn btn-secondary" id="toggle-labels">
+                    <i class="fas fa-tag"></i> SHOW LABELS
+                </button>
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">
+                    <span>Special Effects</span>
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-secondary" id="glow-effect">
+                        <i class="fas fa-magic"></i> GLOW
+                    </button>
+                    <button class="btn btn-secondary" id="particle-effect">
+                        <i class="fas fa-sparkles"></i> PARTICLES
+                    </button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Information Dashboard -->
+    <div class="container">
+        <div class="info-dashboard">
+            <div class="info-card">
+                <h3 class="card-title"><i class="fas fa-code"></i> GNOME DNA SEQUENCE</h3>
+                <div class="dna-sequence" id="sequence-display">
                     <!-- DNA sequence will be generated here -->
                 </div>
+                <div style="margin-top: 1rem; display: flex; gap: 1rem;">
+                    <button class="btn btn-secondary" id="generate-sequence">
+                        <i class="fas fa-dna"></i> GENERATE
+                    </button>
+                    <button class="btn btn-secondary" id="decode-sequence">
+                        <i class="fas fa-search"></i> DECODE
+                    </button>
+                </div>
             </div>
-            
-            <div class="card">
-                <h3>⚙️ DNA Properties</h3>
-                <p><strong>Base Pairs:</strong> <span id="bp-count">3.2 billion</span></p>
-                <p><strong>Active Genes:</strong> <span id="gene-count">21,000</span></p>
-                <p><strong>Telomere Length:</strong> <span id="telomere-length">Optimal</span></p>
-                <p><strong>Mutation Rate:</strong> <span id="mutation-rate">0.0001%</span></p>
-                <p><strong>Epigenetic Markers:</strong> <span id="epigenetic">Optimal methylation</span></p>
+
+            <div class="info-card">
+                <h3 class="card-title"><i class="fas fa-chart-line"></i> GENOME STATISTICS</h3>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-label">BASE PAIRS</div>
+                        <div class="stat-value" id="stat-bp">3.21B</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">ACTIVE GENES</div>
+                        <div class="stat-value" id="stat-genes">21,347</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">GNOME MARKERS</div>
+                        <div class="stat-value" id="stat-markers">284</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">PERFECTION SCORE</div>
+                        <div class="stat-value" id="stat-score">99.87%</div>
+                    </div>
+                </div>
             </div>
-            
-            <div class="card">
-                <h3>🔬 Genetic Enhancements</h3>
-                <ul>
-                    <li>CRISPR-optimized gene sequences</li>
-                    <li>Enhanced DNA repair mechanisms</li>
-                    <li>Neuroplasticity genes activated</li>
-                    <li>Longevity-associated variants present</li>
-                    <li>Disease resistance markers: 100%</li>
-                    <li>Metabolic efficiency: 99th percentile</li>
+
+            <div class="info-card">
+                <h3 class="card-title"><i class="fas fa-rocket"></i> GNOMIC ENHANCEMENTS</h3>
+                <ul class="enhancement-list">
+                    <li><i class="fas fa-check checkmark"></i> Enhanced neural connectivity</li>
+                    <li><i class="fas fa-check checkmark"></i> Superior mechanical aptitude</li>
+                    <li><i class="fas fa-check checkmark"></i> Optimized longevity markers</li>
+                    <li><i class="fas fa-check checkmark"></i> Innate tinkering intuition</li>
+                    <li><i class="fas fa-check checkmark"></i> Mythril affinity gene</li>
+                    <li><i class="fas fa-check checkmark"></i> Clockwork synchronization</li>
                 </ul>
             </div>
         </div>
     </div>
 
     <footer>
-        <p>Perfect Human DNA Explorer v1.0 | Scientific Visualization Tool | For Educational Purposes</p>
-        <p>This is a conceptual demonstration of optimized human genetics</p>
+        <div class="footer-links">
+            <a href="#" class="footer-link"><i class="fas fa-download"></i> Export DNA Data</a>
+            <a href="#" class="footer-link"><i class="fas fa-book"></i> Documentation</a>
+            <a href="#" class="footer-link"><i class="fas fa-vial"></i> Simulation Mode</a>
+            <a href="#" class="footer-link"><i class="fas fa-share-alt"></i> Share Helix</a>
+        </div>
+        <p class="copyright">© 2024 Gnomic DNA Helix Explorer | A Visualization of Perfected Genetics | Felix Gearhart Genome v4.2</p>
+        <p class="copyright">This interface displays a conceptual representation of optimized gnomic DNA structure</p>
     </footer>
 
     <script>
-        // Get canvas context
+        // =====================
+        // INITIALIZATION
+        // =====================
         const canvas = document.getElementById('dna-canvas');
         const ctx = canvas.getContext('2d');
+        const gnomeName = "FELIX GEARHART";
         
-        // Set canvas to full container size
+        // =====================
+        // CREATE STARFIELD
+        // =====================
+        function createStarfield() {
+            const starsContainer = document.getElementById('stars');
+            const starCount = 200;
+            
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                
+                const size = Math.random() * 3 + 1;
+                const x = Math.random() * 100;
+                const y = Math.random() * 100;
+                const duration = Math.random() * 4 + 2;
+                const delay = Math.random() * 5;
+                
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                star.style.left = `${x}%`;
+                star.style.top = `${y}%`;
+                star.style.animationDuration = `${duration}s`;
+                star.style.animationDelay = `${delay}s`;
+                
+                starsContainer.appendChild(star);
+            }
+        }
+        
+        // =====================
+        // DNA VISUALIZATION PARAMETERS
+        // =====================
+        let params = {
+            rotationSpeed: 0.8,  // Slow by default
+            helixRadius: 1.5,
+            cameraDistance: 500,
+            isPlaying: true,
+            autoRotate: true,
+            showLabels: true,
+            glowEffect: true,
+            particleEffect: true,
+            colorTheme: 'neon',
+            time: 0,
+            cameraAngleX: 0.3,
+            cameraAngleY: 0.5,
+            gnomeNameLetters: []
+        };
+        
+        // Color themes
+        const colorThemes = {
+            neon: {
+                backbone1: '#00ffea',
+                backbone2: '#0099ff',
+                baseA: '#ff0066',
+                baseT: '#00ff95',
+                baseC: '#ffaa00',
+                baseG: '#cc00ff',
+                glow: '#00ffea'
+            },
+            vibrant: {
+                backbone1: '#ff00ff',
+                backbone2: '#ff5500',
+                baseA: '#ff0000',
+                baseT: '#00ff00',
+                baseC: '#0088ff',
+                baseG: '#ffff00',
+                glow: '#ff00ff'
+            },
+            cyber: {
+                backbone1: '#00ff95',
+                backbone2: '#00ccff',
+                baseA: '#ff3366',
+                baseT: '#33ff66',
+                baseC: '#3366ff',
+                baseG: '#ffcc00',
+                glow: '#00ff95'
+            },
+            natural: {
+                backbone1: '#4caf50',
+                backbone2: '#2196f3',
+                baseA: '#f44336',
+                baseT: '#4caf50',
+                baseC: '#2196f3',
+                baseG: '#ff9800',
+                glow: '#4caf50'
+            }
+        };
+        
+        // Generate gnome name letters for 3D placement
+        function generateNameLetters() {
+            params.gnomeNameLetters = [];
+            const letters = gnomeName.split('');
+            const segmentCount = 200;
+            
+            for (let i = 0; i < letters.length; i++) {
+                const segmentIndex = Math.floor((i / letters.length) * segmentCount);
+                const letter = letters[i];
+                params.gnomeNameLetters.push({
+                    letter: letter,
+                    segmentIndex: segmentIndex,
+                    angleOffset: (i / letters.length) * Math.PI * 2
+                });
+            }
+        }
+        
+        // =====================
+        // CANVAS SETUP
+        // =====================
         function resizeCanvas() {
             canvas.width = canvas.offsetWidth;
             canvas.height = canvas.offsetHeight;
         }
         
         window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
         
-        // DNA helix parameters
-        let params = {
-            rotationSpeed: 3,
-            helixRadius: 1.5,
-            isPlaying: true,
-            colorMode: 'vibrant', // 'vibrant' or 'natural'
-            time: 0,
-            cameraAngle: 0
-        };
-        
-        // Color palettes
-        const colorPalettes = {
-            vibrant: {
-                backbone1: '#00e5ff',
-                backbone2: '#00ff95',
-                baseA: '#ff5252',
-                baseT: '#4caf50',
-                baseC: '#2196f3',
-                baseG: '#ffc107',
-                background: 'rgba(5, 15, 30, 0.7)'
-            },
-            natural: {
-                backbone1: '#8B4513',
-                backbone2: '#A0522D',
-                baseA: '#E74C3C',
-                baseT: '#27AE60',
-                baseC: '#3498DB',
-                baseG: '#F1C40F',
-                background: 'rgba(10, 25, 20, 0.7)'
+        // =====================
+        // 3D HELIX RENDERING
+        // =====================
+        function drawDNAHelix() {
+            const width = canvas.width;
+            const height = canvas.height;
+            const centerX = width / 2;
+            const centerY = height / 2;
+            
+            // Clear with fade effect for motion trails
+            ctx.fillStyle = 'rgba(5, 10, 25, 0.1)';
+            ctx.fillRect(0, 0, width, height);
+            
+            // Get current theme
+            const theme = colorThemes[params.colorTheme];
+            
+            // Helix parameters
+            const segments = 200;
+            const radius = 80 * params.helixRadius;
+            const helixHeight = 300;
+            const twist = 0.25;
+            
+            // Draw the double helix
+            for (let i = 0; i < segments; i++) {
+                const t = i / segments;
+                const angle = t * Math.PI * 8 + params.time * 0.01 * params.rotationSpeed;
+                const y = (t - 0.5) * helixHeight;
+                
+                // 3D coordinates for first backbone
+                const x1 = Math.cos(angle) * radius;
+                const z1 = Math.sin(angle) * radius;
+                
+                // 3D coordinates for second backbone
+                const x2 = Math.cos(angle + Math.PI) * radius;
+                const z2 = Math.sin(angle + Math.PI) * radius;
+                
+                // Apply camera rotation
+                const camX1 = x1 * Math.cos(params.cameraAngleY) + z1 * Math.sin(params.cameraAngleY);
+                const camZ1 = -x1 * Math.sin(params.cameraAngleY) + z1 * Math.cos(params.cameraAngleY);
+                
+                const camX2 = x2 * Math.cos(params.cameraAngleY) + z2 * Math.sin(params.cameraAngleY);
+                const camZ2 = -x2 * Math.sin(params.cameraAngleY) + z2 * Math.cos(params.cameraAngleY);
+                
+                // Apply perspective
+                const scale1 = params.cameraDistance / (params.cameraDistance + camZ1 + 5);
+                const scale2 = params.cameraDistance / (params.cameraDistance + camZ2 + 5);
+                
+                const screenX1 = centerX + camX1 * scale1;
+                const screenY1 = centerY + y * scale1;
+                
+                const screenX2 = centerX + camX2 * scale2;
+                const screenY2 = centerY + y * scale2;
+                
+                // Draw backbone nodes with glow effect
+                if (params.glowEffect) {
+                    ctx.beginPath();
+                    ctx.arc(screenX1, screenY1, 8 * scale1, 0, Math.PI * 2);
+                    const gradient1 = ctx.createRadialGradient(
+                        screenX1, screenY1, 0,
+                        screenX1, screenY1, 12 * scale1
+                    );
+                    gradient1.addColorStop(0, theme.backbone1);
+                    gradient1.addColorStop(1, 'rgba(0, 255, 234, 0)');
+                    ctx.fillStyle = gradient1;
+                    ctx.fill();
+                    
+                    ctx.beginPath();
+                    ctx.arc(screenX2, screenY2, 8 * scale2, 0, Math.PI * 2);
+                    const gradient2 = ctx.createRadialGradient(
+                        screenX2, screenY2, 0,
+                        screenX2, screenY2, 12 * scale2
+                    );
+                    gradient2.addColorStop(0, theme.backbone2);
+                    gradient2.addColorStop(1, 'rgba(0, 153, 255, 0)');
+                    ctx.fillStyle = gradient2;
+                    ctx.fill();
+                }
+                
+                // Draw solid backbone nodes
+                ctx.beginPath();
+                ctx.arc(screenX1, screenY1, 4 * scale1, 0, Math.PI * 2);
+                ctx.fillStyle = theme.backbone1;
+                ctx.fill();
+                
+                ctx.beginPath();
+                ctx.arc(screenX2, screenY2, 4 * scale2, 0, Math.PI * 2);
+                ctx.fillStyle = theme.backbone2;
+                ctx.fill();
+                
+                // Draw base pair connections with different colors
+                if (i % 7 === 0) {
+                    const baseTypes = ['A', 'T', 'C', 'G'];
+                    const baseType = baseTypes[Math.floor(i / 7) % 4];
+                    
+                    let baseColor;
+                    switch(baseType) {
+                        case 'A': baseColor = theme.baseA; break;
+                        case 'T': baseColor = theme.baseT; break;
+                        case 'C': baseColor = theme.baseC; break;
+                        case 'G': baseColor = theme.baseG; break;
+                    }
+                    
+                    // Draw curved connection between backbones
+                    ctx.beginPath();
+                    ctx.moveTo(screenX1, screenY1);
+                    const cp1x = (screenX1 + screenX2) / 2 + Math.sin(angle) * 20 * scale1;
+                    const cp1y = (screenY1 + screenY2) / 2 + Math.cos(angle) * 20 * scale1;
+                    ctx.quadraticCurveTo(cp1x, cp1y, screenX2, screenY2);
+                    
+                    ctx.strokeStyle = baseColor;
+                    ctx.lineWidth = 3 * ((scale1 + scale2) / 2);
+                    ctx.stroke();
+                    
+                    // Add glow to base pairs
+                    if (params.glowEffect) {
+                        ctx.beginPath();
+                        ctx.moveTo(screenX1, screenY1);
+                        ctx.quadraticCurveTo(cp1x, cp1y, screenX2, screenY2);
+                        ctx.strokeStyle = baseColor + '80';
+                        ctx.lineWidth = 8 * ((scale1 + scale2) / 2);
+                        ctx.stroke();
+                    }
+                }
+                
+                // Draw gnome name letters on the helix
+                if (params.showLabels) {
+                    params.gnomeNameLetters.forEach(letterData => {
+                        if (i === letterData.segmentIndex) {
+                            const letterAngle = angle + letterData.angleOffset;
+                            const letterX = Math.cos(letterAngle) * (radius + 30);
+                            const letterZ = Math.sin(letterAngle) * (radius + 30);
+                            
+                            const camLetterX = letterX * Math.cos(params.cameraAngleY) + letterZ * Math.sin(params.cameraAngleY);
+                            const camLetterZ = -letterX * Math.sin(params.cameraAngleY) + letterZ * Math.cos(params.cameraAngleY);
+                            
+                            const letterScale = params.cameraDistance / (params.cameraDistance + camLetterZ + 5);
+                            const screenLetterX = centerX + camLetterX * letterScale;
+                            const screenLetterY = centerY + y * letterScale;
+                            
+                            // Draw letter with glow
+                            ctx.font = `${20 * letterScale}px Orbitron`;
+                            ctx.textAlign = 'center';
+                            ctx.textBaseline = 'middle';
+                            
+                            if (params.glowEffect) {
+                                ctx.fillStyle = theme.glow + '80';
+                                for (let j = 0; j < 5; j++) {
+                                    ctx.fillText(letterData.letter, screenLetterX, screenLetterY);
+                                }
+                            }
+                            
+                            ctx.fillStyle = '#ffffff';
+                            ctx.fillText(letterData.letter, screenLetterX, screenLetterY);
+                        }
+                    });
+                }
             }
-        };
+            
+            // Add center information if camera is zoomed out
+            if (params.cameraDistance > 700) {
+                ctx.font = '24px Orbitron';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillStyle = theme.glow;
+                ctx.fillText('GNOME DNA HELIX', centerX, centerY - 50);
+                ctx.font = '18px Orbitron';
+                ctx.fillStyle = '#ffffff';
+                ctx.fillText('Perfected Genome Sequence', centerX, centerY + 50);
+            }
+            
+            // Update time for animation
+            if (params.isPlaying && params.autoRotate) {
+                params.time += 1;
+                params.cameraAngleY += 0.002;
+            }
+        }
         
-        // Generate random DNA sequence for display
-        function generateDNASequence(length = 120) {
+        // =====================
+        // DNA SEQUENCE DISPLAY
+        // =====================
+        function generateDNASequence(length = 160) {
             const bases = ['A', 'T', 'C', 'G'];
             let sequence = '';
             for (let i = 0; i < length; i++) {
@@ -347,183 +1020,229 @@
             return sequence;
         }
         
-        // Display DNA sequence with colored bases
         function displaySequence() {
             const sequence = generateDNASequence();
             const container = document.getElementById('sequence-display');
             container.innerHTML = '';
             
-            for (let i = 0; i < sequence.length; i++) {
-                const base = sequence[i];
-                const baseElement = document.createElement('span');
-                baseElement.className = `base ${base}`;
-                baseElement.textContent = base;
-                container.appendChild(baseElement);
-            }
-        }
-        
-        // Update stats with random but realistic values
-        function updateStats() {
-            document.getElementById('bp-count').textContent = 
-                (3.2 + (Math.random() * 0.1 - 0.05)).toFixed(2) + ' billion';
-            
-            document.getElementById('gene-count').textContent = 
-                Math.floor(21000 + Math.random() * 200 - 100).toLocaleString();
-            
-            // Randomize telomere status
-            const telomereStatus = ['Optimal', 'Excellent', 'Superior'][Math.floor(Math.random() * 3)];
-            document.getElementById('telomere-length').textContent = telomereStatus;
-            
-            // Random mutation rate
-            document.getElementById('mutation-rate').textContent = 
-                (0.0001 + (Math.random() * 0.00005)).toFixed(4) + '%';
-        }
-        
-        // Draw the DNA double helix
-        function drawDNA() {
-            const width = canvas.width;
-            const height = canvas.height;
-            const centerX = width / 2;
-            const centerY = height / 2;
-            
-            // Clear canvas with semi-transparent background for trail effect
-            ctx.fillStyle = 'rgba(5, 15, 30, 0.1)';
-            ctx.fillRect(0, 0, width, height);
-            
-            // Get current color palette
-            const colors = colorPalettes[params.colorMode];
-            
-            // Helix parameters
-            const segments = 150;
-            const radius = 100 * params.helixRadius;
-            const twist = 0.3;
-            
-            // Draw the double helix
-            for (let i = 0; i < segments; i++) {
-                const angle = (i / segments) * Math.PI * 8 + params.time * 0.02 * params.rotationSpeed;
-                const y = (i - segments/2) * 3;
+            // Split into lines of 40 characters
+            for (let i = 0; i < sequence.length; i += 40) {
+                const line = sequence.substring(i, i + 40);
+                const lineDiv = document.createElement('div');
+                lineDiv.style.marginBottom = '5px';
                 
-                // 3D rotation
-                const camX = Math.cos(params.cameraAngle) * radius;
-                const camZ = Math.sin(params.cameraAngle) * radius;
-                
-                // First backbone strand
-                const x1 = Math.cos(angle) * radius;
-                const z1 = Math.sin(angle) * radius;
-                
-                // Second backbone strand (opposite side)
-                const x2 = Math.cos(angle + Math.PI) * radius;
-                const z2 = Math.sin(angle + Math.PI) * radius;
-                
-                // Apply perspective
-                const scale1 = 300 / (300 + z1 + camZ);
-                const scale2 = 300 / (300 + z2 + camZ);
-                
-                const screenX1 = centerX + (x1 + camX) * scale1;
-                const screenY1 = centerY + y * scale1;
-                
-                const screenX2 = centerX + (x2 + camX) * scale2;
-                const screenY2 = centerY + y * scale2;
-                
-                // Draw backbone connections
-                ctx.beginPath();
-                ctx.moveTo(screenX1, screenY1);
-                ctx.lineTo(screenX2, screenY2);
-                
-                // Color based on position and mode
-                const gradient = ctx.createLinearGradient(screenX1, screenY1, screenX2, screenY2);
-                gradient.addColorStop(0, colors.backbone1);
-                gradient.addColorStop(1, colors.backbone2);
-                
-                ctx.strokeStyle = gradient;
-                ctx.lineWidth = 2;
-                ctx.stroke();
-                
-                // Draw backbone nodes
-                ctx.beginPath();
-                ctx.arc(screenX1, screenY1, 4 * scale1, 0, Math.PI * 2);
-                ctx.fillStyle = colors.backbone1;
-                ctx.fill();
-                
-                ctx.beginPath();
-                ctx.arc(screenX2, screenY2, 4 * scale2, 0, Math.PI * 2);
-                ctx.fillStyle = colors.backbone2;
-                ctx.fill();
-                
-                // Draw base pairs every few segments
-                if (i % 5 === 0) {
-                    // Choose a random base for coloring
-                    const bases = ['A', 'T', 'C', 'G'];
-                    const base = bases[Math.floor((i/5) % 4)];
-                    
-                    // Draw the base pair connection
-                    ctx.beginPath();
-                    ctx.moveTo(screenX1, screenY1);
-                    const midX = (screenX1 + screenX2) / 2;
-                    const midY = (screenY1 + screenY2) / 2;
-                    ctx.quadraticCurveTo(midX + Math.sin(angle)*10, midY + Math.cos(angle)*10, screenX2, screenY2);
-                    
-                    // Color the base pair
-                    switch(base) {
-                        case 'A': ctx.strokeStyle = colors.baseA; break;
-                        case 'T': ctx.strokeStyle = colors.baseT; break;
-                        case 'C': ctx.strokeStyle = colors.baseC; break;
-                        case 'G': ctx.strokeStyle = colors.baseG; break;
-                    }
-                    
-                    ctx.lineWidth = 3 * ((scale1 + scale2) / 2);
-                    ctx.stroke();
+                for (let j = 0; j < line.length; j++) {
+                    const base = line[j];
+                    const baseElement = document.createElement('span');
+                    baseElement.className = `base ${base}`;
+                    baseElement.textContent = base;
+                    baseElement.title = `Base ${i + j + 1}: ${base}`;
+                    lineDiv.appendChild(baseElement);
                 }
-            }
-            
-            // Update time for animation
-            if (params.isPlaying) {
-                params.time += 1;
-                params.cameraAngle += 0.002;
+                
+                container.appendChild(lineDiv);
             }
         }
         
-        // Animation loop
+        // =====================
+        // STATISTICS UPDATER
+        // =====================
+        function updateStats() {
+            const stats = {
+                bp: (3.21 + (Math.random() * 0.05 - 0.025)).toFixed(2) + 'B',
+                genes: Math.floor(21347 + Math.random() * 100 - 50).toLocaleString(),
+                markers: Math.floor(284 + Math.random() * 10 - 5),
+                score: (99.87 + (Math.random() * 0.1 - 0.05)).toFixed(2) + '%'
+            };
+            
+            document.getElementById('stat-bp').textContent = stats.bp;
+            document.getElementById('stat-genes').textContent = stats.genes;
+            document.getElementById('stat-markers').textContent = stats.markers;
+            document.getElementById('stat-score').textContent = stats.score;
+        }
+        
+        // =====================
+        // ANIMATION LOOP
+        // =====================
         function animate() {
-            drawDNA();
+            drawDNAHelix();
             requestAnimationFrame(animate);
         }
         
-        // Initialize controls
-        document.getElementById('speed-slider').addEventListener('input', function(e) {
-            params.rotationSpeed = parseFloat(e.target.value);
-        });
+        // =====================
+        // CONTROL HANDLERS
+        // =====================
+        function initializeControls() {
+            // Speed slider
+            const speedSlider = document.getElementById('speed-slider');
+            const speedValue = document.getElementById('speed-value');
+            
+            speedSlider.addEventListener('input', function(e) {
+                params.rotationSpeed = parseFloat(e.target.value);
+                speedValue.textContent = `${params.rotationSpeed.toFixed(1)}x`;
+            });
+            
+            // Radius slider
+            const radiusSlider = document.getElementById('radius-slider');
+            const radiusValue = document.getElementById('radius-value');
+            
+            radiusSlider.addEventListener('input', function(e) {
+                params.helixRadius = parseFloat(e.target.value);
+                const labels = ['Small', 'Medium', 'Large'];
+                radiusValue.textContent = labels[Math.floor(params.helixRadius - 0.5)] || 'Custom';
+            });
+            
+            // Camera slider
+            const cameraSlider = document.getElementById('camera-slider');
+            const cameraValue = document.getElementById('camera-value');
+            
+            cameraSlider.addEventListener('input', function(e) {
+                params.cameraDistance = parseFloat(e.target.value);
+                const labels = ['Close', 'Optimal', 'Far', 'Distant'];
+                let labelIndex = Math.floor((params.cameraDistance - 300) / 175);
+                labelIndex = Math.min(labelIndex, 3);
+                cameraValue.textContent = labels[labelIndex] || 'Custom';
+            });
+            
+            // Color themes
+            document.querySelectorAll('.color-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    document.querySelectorAll('.color-option').forEach(opt => {
+                        opt.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                    params.colorTheme = this.dataset.theme;
+                });
+            });
+            
+            // Control buttons
+            document.getElementById('play-pause').addEventListener('click', function() {
+                params.isPlaying = !params.isPlaying;
+                this.innerHTML = params.isPlaying ? 
+                    '<i class="fas fa-pause"></i> PAUSE' : 
+                    '<i class="fas fa-play"></i> PLAY';
+            });
+            
+            document.getElementById('auto-rotate').addEventListener('click', function() {
+                params.autoRotate = !params.autoRotate;
+                this.style.background = params.autoRotate ? 
+                    'linear-gradient(45deg, #006064, #00bcd4)' : 
+                    'rgba(255, 255, 255, 0.1)';
+            });
+            
+            document.getElementById('toggle-labels').addEventListener('click', function() {
+                params.showLabels = !params.showLabels;
+                this.innerHTML = params.showLabels ? 
+                    '<i class="fas fa-tag"></i> HIDE LABELS' : 
+                    '<i class="fas fa-tag"></i> SHOW LABELS';
+            });
+            
+            document.getElementById('glow-effect').addEventListener('click', function() {
+                params.glowEffect = !params.glowEffect;
+                this.style.background = params.glowEffect ? 
+                    'linear-gradient(45deg, #006064, #00bcd4)' : 
+                    'rgba(255, 255, 255, 0.1)';
+            });
+            
+            document.getElementById('particle-effect').addEventListener('click', function() {
+                params.particleEffect = !params.particleEffect;
+                this.style.background = params.particleEffect ? 
+                    'linear-gradient(45deg, #006064, #00bcd4)' : 
+                    'rgba(255, 255, 255, 0.1)';
+            });
+            
+            document.getElementById('reset-view').addEventListener('click', function() {
+                params.time = 0;
+                params.cameraAngleY = 0.5;
+                speedSlider.value = 0.8;
+                radiusSlider.value = 1.5;
+                cameraSlider.value = 500;
+                params.rotationSpeed = 0.8;
+                params.helixRadius = 1.5;
+                params.cameraDistance = 500;
+                speedValue.textContent = '0.8x';
+                radiusValue.textContent = 'Medium';
+                cameraValue.textContent = 'Optimal';
+            });
+            
+            document.getElementById('generate-sequence').addEventListener('click', displaySequence);
+            
+            document.getElementById('decode-sequence').addEventListener('click', function() {
+                alert('Decoding gnome DNA sequence...\n\nAnalysis complete:\n- Enhanced mechanical aptitude confirmed\n- Innate tinkering intuition: PRESENT\n- Mythril affinity gene: ACTIVE\n- Clockwork synchronization: OPTIMAL');
+            });
+        }
         
-        document.getElementById('size-slider').addEventListener('input', function(e) {
-            params.helixRadius = parseFloat(e.target.value);
-        });
-        
-        document.getElementById('color-mode').addEventListener('click', function() {
-            params.colorMode = params.colorMode === 'vibrant' ? 'natural' : 'vibrant';
-            this.textContent = params.colorMode === 'vibrant' ? 'Natural Mode' : 'Vibrant Mode';
-        });
-        
-        document.getElementById('play-pause').addEventListener('click', function() {
-            params.isPlaying = !params.isPlaying;
-            this.textContent = params.isPlaying ? 'Pause' : 'Play';
-        });
-        
-        document.getElementById('reset-view').addEventListener('click', function() {
-            params.time = 0;
-            params.cameraAngle = 0;
+        // =====================
+        // INITIALIZATION
+        // =====================
+        function init() {
+            createStarfield();
+            resizeCanvas();
+            generateNameLetters();
             displaySequence();
             updateStats();
-        });
+            initializeControls();
+            animate();
+            
+            // Update stats every 5 seconds
+            setInterval(updateStats, 5000);
+            
+            // Add some floating particles
+            if (params.particleEffect) {
+                setInterval(() => {
+                    if (params.particleEffect && Math.random() > 0.7) {
+                        createFloatingParticle();
+                    }
+                }, 300);
+            }
+        }
         
-        // Initialize
-        displaySequence();
-        updateStats();
+        // Floating particles effect
+        function createFloatingParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            
+            const size = Math.random() * 4 + 2;
+            const theme = colorThemes[params.colorTheme];
+            const colors = [theme.backbone1, theme.backbone2, theme.baseA, theme.baseG];
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            particle.style.backgroundColor = color;
+            particle.style.left = `${Math.random() * 100}%`;
+            particle.style.top = `${Math.random() * 100}%`;
+            particle.style.boxShadow = `0 0 ${size * 2}px ${color}`;
+            
+            document.body.appendChild(particle);
+            
+            // Animate particle
+            const startX = parseFloat(particle.style.left);
+            const startY = parseFloat(particle.style.top);
+            const duration = Math.random() * 3 + 2;
+            
+            let startTime = null;
+            function animateParticle(timestamp) {
+                if (!startTime) startTime = timestamp;
+                const elapsed = timestamp - startTime;
+                const progress = Math.min(elapsed / (duration * 1000), 1);
+                
+                particle.style.left = `${startX + Math.sin(progress * Math.PI * 2) * 10}%`;
+                particle.style.top = `${startY - progress * 20}%`;
+                particle.style.opacity = 1 - progress;
+                
+                if (progress < 1) {
+                    requestAnimationFrame(animateParticle);
+                } else {
+                    particle.remove();
+                }
+            }
+            
+            requestAnimationFrame(animateParticle);
+        }
         
-        // Start animation
-        animate();
-        
-        // Update stats periodically
-        setInterval(updateStats, 3000);
+        // Start everything
+        window.addEventListener('load', init);
     </script>
 </body>
 </html>
